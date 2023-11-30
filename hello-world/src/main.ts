@@ -1,16 +1,30 @@
 import { Square } from './Square.js';
 
 import {
+
   Field,
+  // The same o1js unsigned integer type that you learned earlier.
+
   Mina,
+  // A local Mina blockchain to deploy the smart contract to so you can interact with it as a user would.
+
   PrivateKey,
+  // A class with functions for manipulating private keys.
+
   AccountUpdate,
+  // A class that generates a data structure that can update zkApp accounts.
+
 } from 'o1js';
 
 const useProof = false;
 
+// Using a local blockchain speeds up development and tests the behavior of your smart contract locally. Later tutorials cover how to deploy a zkApp to live Mina networks.
+
 const Local = Mina.LocalBlockchain({ proofsEnabled: useProof });
 Mina.setActiveInstance(Local);
+
+// This local blockchain also provides pre-funded accounts. These lines create local test accounts with test MINA to use for this tutorial:
+
 const { privateKey: deployerKey, publicKey: deployerAccount } = Local.testAccounts[0];
 const { privateKey: senderKey, publicKey: senderAccount } = Local.testAccounts[1];
 
