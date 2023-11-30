@@ -1,4 +1,5 @@
 import { Square } from './Square.js';
+
 import {
   Field,
   Mina,
