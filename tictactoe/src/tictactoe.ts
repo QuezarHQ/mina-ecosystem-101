@@ -1,18 +1,35 @@
-/**
- * This file defines the `TicTacToe` smart contract and the helpers it needs.
- */
-
 import {
+  
   Field,
+  // The native number type in o1js. You can think of Field elements as unsigned integers. Field elements are the most basic type in o1js. All other o1js-compatible types are built on top of Field elements.
+
   State,
+  // A class used in zkApp smart contracts to create state stored on-chain in a zkApp account.
+
   PublicKey,
+
+
   SmartContract,
+  // The class that creates zkApp smart contracts.
+
   state,
+  // A convenience decorator used in zkApp smart contracts to create references to state stored on-chain in a zkApp account.
+
   method,
+  // A convenience decorator used in zkApp smart contracts to create smart contract methods like functions. Methods that use this decorator are the end user's entry points to interacting with a smart contract.
+
   Bool,
+  // Class for a boolean value
+
   Provable,
+  // Provable<T> is the general circuit type interface in o1js. Provable<T> interface describes how a type T is made up of Field elements and "auxiliary" (non-provable) data
+
   Signature,
+  // A Schnorr Signature over the Pasta Curves. #TODO refine further.
+
   Struct,
+  // Can create compound data types using struct
+
 } from 'o1js';
 
 export { Board, TicTacToe };
