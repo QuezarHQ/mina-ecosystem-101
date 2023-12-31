@@ -5,9 +5,10 @@ export class Lottery extends SmartContract {
   @state(Field) tickets = State<Field>();
   @state(Field) winningTicket = State<Field>();
 
-  @method initState(lotterysize: Field) {
+  @method initState(lotterysize: Field, tickets: Field) {
     this.pool.set(lotterysize);
-    // TODO initialise tickets & winning ticket
+    this.tickets.set(tickets);
+    this.winningTicket.set(Field(0));
   }
 
   @method buyTicket(price: Field) {
