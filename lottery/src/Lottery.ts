@@ -1,21 +1,35 @@
-import { Field, SmartContract, state, State, method } from 'o1js';
+import { Field, SmartContract, state, State, method, Poseidon } from 'o1js';
 
 export class Lottery extends SmartContract {
-  @state(Field) pool = State<Field>();
-  @state(Field) tickets = State<Field>();
-  @state(Field) winningTicket = State<Field>();
 
-  @method initState(lotterysize: Field, tickets: Field) {
-    this.pool.set(lotterysize);
-    this.tickets.set(tickets);
-    this.winningTicket.set(Field(0));
+  events = {
+    "Lottery Status": Field,
+    "Amount Transferred": Field,
+  }
+  
+  @state(Field) x = State<Field>();
+  @state(Field) status = State<Field>();
+
+  @method initState(salt: Field, secret: Field) {
+    this.x.set(Poseidon.hash([salt, secret]));
+    this.status.set(Field(0));
   }
 
-  @method buyTicket(price: Field) {
-    // TODO add logic for giving away the tickets
+  @method tryLottery(salt: Field, secret: Field) {
+
+    this.status.requireEquals(Field(0));
+    
+    const x = this.x.get();
+    this.x.requireEquals(x);
+    Poseidon.hash([salt, secret]).assertEquals(x);
+
+    this.account.balance.requireEquals(this.account.balance.get());
+    this.send({ to: this.sender, amount: this.account.balance.get() });
+    this.emitEvent("Amount Transferred", Field(1));
+
+    this.status.set(Field(1));
+    this.emitEvent("Lottery Status", Field(1));
+    
   }
 
-  @method declareLottery() {
-    // TODO add logic for declaring lottery once all the tickets are sold. 
-  }
 }

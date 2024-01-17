@@ -1,3 +1,3 @@
-import { IncrementSecret } from './IncrementSecret.js';
-export { IncrementSecret };
+import { PrivateInput } from './PrivateInput.js';
+export { PrivateInput };
 //# sourceMappingURL=index.js.map

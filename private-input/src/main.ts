@@ -1,4 +1,4 @@
-import { IncrementSecret } from './IncrementSecret.js';
+import { PrivateInput } from './PrivateInput.js';
 import {
   Field,
   Mina,
@@ -20,11 +20,12 @@ const salt = Field.random();
 
 // ----------------------------------------------------
 
-// create a destination we will deploy the smart contract to
+console.log('\nInitiating zkApp setup...');
+
 const zkAppPrivateKey = PrivateKey.random();
 const zkAppAddress = zkAppPrivateKey.toPublicKey();
 
-const zkAppInstance = new IncrementSecret(zkAppAddress);
+const zkAppInstance = new PrivateInput(zkAppAddress);
 const deployTxn = await Mina.transaction(deployerAccount, () => {
   AccountUpdate.fundNewAccount(deployerAccount);
   zkAppInstance.deploy();
@@ -33,11 +34,12 @@ const deployTxn = await Mina.transaction(deployerAccount, () => {
 await deployTxn.prove();
 await deployTxn.sign([deployerKey, zkAppPrivateKey]).send();
 
-// get the initial state of IncrementSecret after deployment
 const num0 = zkAppInstance.x.get();
 console.log('state after init:', num0.toString());
 
 // ----------------------------------------------------
+
+console.log('\nInitiating transaction 1...');
 
 const txn1 = await Mina.transaction(senderAccount, () => {
   zkAppInstance.incrementSecret(salt, Field(750));
@@ -47,3 +49,25 @@ await txn1.sign([senderKey]).send();
 
 const num1 = zkAppInstance.x.get();
 console.log('state after txn1:', num1.toString());
+
+// ----------------------------------------------------
+
+console.log('\nInitiating transaction 2...');
+
+try {
+    const txn2 = await Mina.transaction(senderAccount, () => {
+        zkAppInstance.incrementSecret(salt, Field(800));
+    });
+    await txn2.prove();
+    await txn2.sign([senderKey]).send();      
+  } catch (ex: any) {
+    console.log(ex.message);
+  }
+
+const num2 = zkAppInstance.x.get();
+console.log('state after txn2:', num2.toString());
+
+// ----------------------------------------------------
+
+
+console.log('\nShutting down...\n');

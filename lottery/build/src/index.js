@@ -1,3 +1,3 @@
-import { Add } from './Add.js';
-export { Add };
+import { Lottery } from "./Lottery";
+export { Lottery };
 //# sourceMappingURL=index.js.map

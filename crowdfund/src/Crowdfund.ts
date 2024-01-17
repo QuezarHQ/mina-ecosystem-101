@@ -1,16 +1,16 @@
-import { Field, SmartContract, state, State, method } from 'o1js';
+import { 
+    Field, 
+    SmartContract, 
+    state, 
+    State, 
+    method 
+} from 'o1js';
 
 export class Crowdfund extends SmartContract {
-  @state(Field) pool = State<Field>();
+  @state(Field) goal = State<Field>();
 
-  @method initState(seed: Field) {
-    this.pool.set(seed);
+  @method initState(goal: Field) {
+    this.goal.set(goal);
   }
 
-  @method incrementPool(amount: Field) {
-    const pool = this.pool.get();
-    this.pool.assertEquals(pool);
-
-    this.pool.set(pool.add(amount));
-  }
 }

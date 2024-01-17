@@ -25,12 +25,6 @@ class SudokuZkApp extends SmartContract {
         this.sudokuHash = State();
         this.isSolved = State();
     }
-    /**
-     * by making this a `@method`, we ensure that a proof is created for the state initialization.
-     * alternatively (and, more efficiently), we could have used `super.init()` inside `update()` below,
-     * to ensure the entire state is overwritten.
-     * however, it's good to have an example which tests the CLI's ability to handle init() decorated with `@method`.
-     */
     init() {
         super.init();
     }
@@ -41,8 +35,6 @@ class SudokuZkApp extends SmartContract {
     submitSolution(sudokuInstance, solutionInstance) {
         let sudoku = sudokuInstance.value;
         let solution = solutionInstance.value;
-        // first, we check that the passed solution is a valid sudoku
-        // define helpers
         let range9 = Array.from({ length: 9 }, (_, i) => i);
         let oneTo9 = range9.map((i) => Field(i + 1));
         function assertHas1To9(array) {
@@ -81,7 +73,7 @@ class SudokuZkApp extends SmartContract {
             }
         }
         // finally, we check that the sudoku is the one that was originally deployed
-        let sudokuHash = this.sudokuHash.getAndAssertEquals();
+        let sudokuHash = this.sudokuHash.getAndRequireEquals();
         sudokuInstance
             .hash()
             .assertEquals(sudokuHash, 'sudoku matches the one committed on-chain');
@@ -119,4 +111,4 @@ function divmod(k, n) {
     let q = Math.floor(k / n);
     return [q, k - q * n];
 }
-//# sourceMappingURL=sudoku.js.map
+//# sourceMappingURL=Sudoku.js.map

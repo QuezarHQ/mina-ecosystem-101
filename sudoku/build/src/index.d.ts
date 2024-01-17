@@ -1,2 +1,2 @@
-import { SudokuZkApp } from './sudoku.js';
+import { SudokuZkApp } from './Sudoku.js';
 export { SudokuZkApp };

@@ -25,6 +25,9 @@ declare const Sudoku_base: (new (value: {
     }) => {
         value: import("o1js/dist/node/lib/field").Field[][];
     };
+    empty: () => {
+        value: import("o1js/dist/node/lib/field").Field[][];
+    };
 };
 declare class Sudoku extends Sudoku_base {
     static from(value: number[][]): Sudoku;
@@ -33,12 +36,6 @@ declare class Sudoku extends Sudoku_base {
 declare class SudokuZkApp extends SmartContract {
     sudokuHash: State<import("o1js/dist/node/lib/field").Field>;
     isSolved: State<import("o1js/dist/node/lib/bool").Bool>;
-    /**
-     * by making this a `@method`, we ensure that a proof is created for the state initialization.
-     * alternatively (and, more efficiently), we could have used `super.init()` inside `update()` below,
-     * to ensure the entire state is overwritten.
-     * however, it's good to have an example which tests the CLI's ability to handle init() decorated with `@method`.
-     */
     init(): void;
     update(sudokuInstance: Sudoku): void;
     submitSolution(sudokuInstance: Sudoku, solutionInstance: Sudoku): void;

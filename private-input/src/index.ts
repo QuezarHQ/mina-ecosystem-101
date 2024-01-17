@@ -1,3 +1,3 @@
-import { IncrementSecret } from './IncrementSecret.js';
+import { PrivateInput } from './PrivateInput.js';
 
-export { IncrementSecret };
+export { PrivateInput };
