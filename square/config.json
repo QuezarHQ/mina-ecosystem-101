@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "deployAliases": {
+    "testnet": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/testnet.json",
+      "feepayerKeyPath": "/Users/saumay/.cache/zkapp-cli/keys/me101.json",
+      "feepayerAlias": "me101",
+      "fee": "0.1",
+      "smartContract": "Square"
+    }
+  }
+}
